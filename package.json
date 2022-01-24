@@ -48,7 +48,10 @@
     ]
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "npm run fix"
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint:eslint",
+      "npm run lint:prettier"
+    ]
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.10.0",
