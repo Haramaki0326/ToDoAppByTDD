@@ -29,6 +29,9 @@ rules:
     - extensions:
         - '.jsx'
         - '.tsx'
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies: true
 settings:
   import/resolver:
     node:

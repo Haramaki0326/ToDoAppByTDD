@@ -1,24 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { ChangeEvent, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
+  const [text, setText] = useState<string>('');
+  const [todos, setTodos] = useState<string[]>([]);
+
+  const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
+  const onClickAdd = () => {
+    const newTodos = [...todos];
+    newTodos.push(text);
+    setTodos(newTodos);
+    setText('');
+  };
+
+  const onClickDelete = (index: number) => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  };
+
   return (
     <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
+      <form>
+        <label htmlFor='todoInput'>
+          ToDo:
+          <input
+            type='text'
+            id='todoInput'
+            data-testid='todoField'
+            value={text}
+            onChange={onChangeText}
+          />
+        </label>
+        <button
+          type='button'
+          id='addButton'
+          data-testid='addButton'
+          onClick={onClickAdd}
         >
-          Learn React!
-        </a>
-      </header>
+          追加
+        </button>
+      </form>
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={uuidv4()}>
+            {todo}
+            <button
+              type='button'
+              data-testid={`deleteButton_${index}`}
+              onClick={() => onClickDelete(index)}
+            >
+              削除
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
