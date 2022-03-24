@@ -11,9 +11,9 @@ describe('ToDoアプリ', () => {
 
   // 仕様
   describe('入力項目（テキストボックス）を表示する', () => {
-    test('入力項目（「ToDo:」テキストボックス）を表示する', () => {
+    test('入力項目（「ToDo」テキストボックス）を表示する', () => {
       // 準備（Arrange）
-      const todoText = screen.getByLabelText('ToDo:');
+      const todoText = screen.getByLabelText('ToDo');
       // 実行（Act）
       // 検証（Assert）
       expect(todoText).toBeInTheDocument();
@@ -102,7 +102,6 @@ describe('ToDoアプリ', () => {
       userEvent.click(deleteButton);
 
       // 検証（Assert）
-      screen.debug();
       expect(addedItem).not.toBeInTheDocument();
     });
 
@@ -121,8 +120,9 @@ describe('ToDoアプリ', () => {
       userEvent.type(todoField, 'TEST4');
       userEvent.click(addButton);
 
-      const deleteButton2 = screen.getByTestId('deleteButton_1');
+      const deleteButton2 = screen.getByTestId('deleteButton_TEST2');
       userEvent.click(deleteButton2);
+
       const addedItem2 = screen.queryByText('TEST2');
 
       // 検証（Assert）

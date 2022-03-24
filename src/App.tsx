@@ -1,32 +1,38 @@
 import React, { ChangeEvent, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import type { Todo } from './types/todo';
+import { TodoList } from './components/TodoList';
 
 function App() {
   const [text, setText] = useState<string>('');
-  const [todos, setTodos] = useState<string[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
 
   const onClickAdd = () => {
+    const newTodo: Todo = {
+      key: uuidv4(),
+      content: text,
+    };
     const newTodos = [...todos];
-    newTodos.push(text);
+    newTodos.push(newTodo);
     setTodos(newTodos);
     setText('');
   };
 
-  const onClickDelete = (index: number) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
+  const onClickDelete = (key: string) => {
+    const newTodos = todos.filter((todo) => todo.key !== key);
     setTodos(newTodos);
   };
 
   return (
     <div className='App'>
+      <h1>ToDo App</h1>
       <form>
         <label htmlFor='todoInput'>
-          ToDo:
+          ToDo
           <input
             type='text'
             id='todoInput'
@@ -44,20 +50,8 @@ function App() {
           追加
         </button>
       </form>
-      <ul>
-        {todos.map((todo, index) => (
-          <li key={uuidv4()}>
-            {todo}
-            <button
-              type='button'
-              data-testid={`deleteButton_${index}`}
-              onClick={() => onClickDelete(index)}
-            >
-              削除
-            </button>
-          </li>
-        ))}
-      </ul>
+      <p>ToDo一覧</p>
+      <TodoList todos={todos} onClickDelete={onClickDelete} />
     </div>
   );
 }
