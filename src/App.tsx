@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import { useTodoList } from './hooks/useTodoList';
 import { TodoList } from './components/TodoList';
 
@@ -15,9 +15,12 @@ function App() {
     setText('');
   };
 
-  const onClickDelete = (key: string) => {
-    deleteTodo(key);
-  };
+  const onClickDelete = useCallback(
+    (key: string) => {
+      deleteTodo(key);
+    },
+    [deleteTodo]
+  );
 
   return (
     <div className='App'>
