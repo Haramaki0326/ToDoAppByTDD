@@ -1,30 +1,22 @@
 import React, { ChangeEvent, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import type { Todo } from './types/todo';
+import { useTodoList } from './hooks/useTodoList';
 import { TodoList } from './components/TodoList';
 
 function App() {
+  const { todos, addTodo, deleteTodo } = useTodoList();
   const [text, setText] = useState<string>('');
-  const [todos, setTodos] = useState<Todo[]>([]);
 
   const onChangeText = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
 
   const onClickAdd = () => {
-    const newTodo: Todo = {
-      key: uuidv4(),
-      content: text,
-    };
-    const newTodos = [...todos];
-    newTodos.push(newTodo);
-    setTodos(newTodos);
+    addTodo(text);
     setText('');
   };
 
   const onClickDelete = (key: string) => {
-    const newTodos = todos.filter((todo) => todo.key !== key);
-    setTodos(newTodos);
+    deleteTodo(key);
   };
 
   return (
